@@ -319,7 +319,7 @@ function renderLeaderboardList(container, entries) {
       return `
         <div class="leaderboard-row">
           <div class="leaderboard-rank">#${index + 1}</div>
-          <div class="leaderboard-team">${escapeHtml(entry.teamName)}</div>
+          <div class="leaderboard-name">${escapeHtml(entry.teamName)}</div>
           <div class="leaderboard-score">${entry.score}</div>
           <div class="leaderboard-meta">${accuracy}</div>
         </div>

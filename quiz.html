@@ -208,7 +208,7 @@
       }
       .leaderboard-row {
         display: grid;
-        grid-template-columns: 52px 1fr 120px 120px;
+        grid-template-columns: 52px minmax(0, 1fr) 120px 120px;
         align-items: center;
         gap: 12px;
         font-size: 16px;
@@ -221,7 +221,12 @@
         letter-spacing: 0.12em;
       }
       .leaderboard-rank { font-weight: 600; color: var(--accent); }
-      .leaderboard-team { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .leaderboard-name {
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       .leaderboard-score { font-variant-numeric: tabular-nums; }
       .leaderboard-meta { color: var(--muted); font-size: 14px; }
       .leaderboard-empty {
@@ -232,7 +237,7 @@
         padding: 16px 0;
       }
       @media (max-width: 640px) {
-        .leaderboard-row { grid-template-columns: 44px 1fr 90px 90px; font-size: 14px; }
+        .leaderboard-row { grid-template-columns: 44px minmax(0, 1fr) 90px 90px; font-size: 14px; }
         .leaderboard-row.header { display: none; }
       }
       .loading {
