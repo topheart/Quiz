@@ -1,4 +1,4 @@
-import { getLeaderboardEntries, saveLeaderboardEntry, formatDuration } from './leaderboard-store.js';
+import { getLeaderboardEntries, saveLeaderboardEntry } from './leaderboard-store.js';
 
 const QUESTION_TIME_SECONDS = 60;
 const MAX_QUESTION_SCORE = 1000;
@@ -316,14 +316,12 @@ function renderLeaderboardList(container, entries) {
   const rows = entries
     .map((entry, index) => {
       const accuracy = entry.total ? `${entry.correct}/${entry.total}` : `${entry.correct}`;
-      const duration = formatDuration(entry.durationSeconds);
-      const detail = duration ? `${accuracy}｜${duration}` : accuracy;
       return `
         <div class="leaderboard-row">
           <div class="leaderboard-rank">#${index + 1}</div>
-          <div>${escapeHtml(entry.teamName)}</div>
+          <div class="leaderboard-team">${escapeHtml(entry.teamName)}</div>
           <div class="leaderboard-score">${entry.score}</div>
-          <div class="leaderboard-meta">${detail}</div>
+          <div class="leaderboard-meta">${accuracy}</div>
         </div>
       `;
     })
