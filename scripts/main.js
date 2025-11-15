@@ -1,4 +1,4 @@
-import { getLeaderboardEntries, clearLeaderboard } from './leaderboard-store.js';
+import { getLeaderboardEntries, clearLeaderboard, formatDuration } from './leaderboard-store.js';
 
 const qrBox = document.getElementById('qrBox');
 const fallbackLink = document.getElementById('fallbackLink');
@@ -55,21 +55,25 @@ async function renderLeaderboard() {
     const header = `
       <div class="leaderboard-row header">
         <div>名次</div>
-        <div>隊伍</div>
-        <div>分數</div>
-        <div>答對題數</div>
+        <div>隊伍資訊</div>
       </div>
     `;
 
     const rows = entries
       .map((entry, index) => {
         const accuracy = entry.total ? `${entry.correct}/${entry.total}` : `${entry.correct}`;
+        const duration = entry.durationSeconds ? formatDuration(entry.durationSeconds) : '';
+        const detail = duration ? `${accuracy}｜${duration}` : accuracy;
         return `
           <div class="leaderboard-row">
             <div class="leaderboard-rank">#${index + 1}</div>
-            <div class="leaderboard-name">${escapeHtml(entry.teamName)}</div>
-            <div class="leaderboard-score">${entry.score}</div>
-            <div class="leaderboard-meta">${accuracy}</div>
+            <div class="leaderboard-body">
+              <div class="leaderboard-team" title="${escapeHtml(entry.teamName)}">${escapeHtml(entry.teamName)}</div>
+              <div class="leaderboard-line">
+                <span class="leaderboard-score">分數 ${entry.score}</span>
+                <span class="leaderboard-meta">${escapeHtml(detail)}</span>
+              </div>
+            </div>
           </div>
         `;
       })

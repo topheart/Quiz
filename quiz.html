@@ -199,7 +199,7 @@
         display: grid;
         gap: 10px;
         padding: 16px;
-        max-height: clamp(370px, 52vh, 440px);
+        max-height: clamp(220px, 40vh, 320px);
         overflow-y: auto;
       }
       .leaderboard-grid {
@@ -208,9 +208,9 @@
       }
       .leaderboard-row {
         display: grid;
-        grid-template-columns: 52px minmax(0, 1fr) 120px 120px;
-        align-items: center;
-        gap: 12px;
+        grid-template-columns: 52px 1fr;
+        align-items: flex-start;
+        gap: 14px;
         font-size: 16px;
         letter-spacing: 0.04em;
       }
@@ -220,13 +220,23 @@
         text-transform: uppercase;
         letter-spacing: 0.12em;
       }
-      .leaderboard-rank { font-weight: 600; color: var(--accent); }
-      .leaderboard-name {
-        text-align: left;
-        white-space: nowrap;
+      .leaderboard-body {
+        display: grid;
+        gap: 6px;
+      }
+      .leaderboard-team {
+        font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
+      .leaderboard-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: baseline;
+      }
+      .leaderboard-rank { font-weight: 600; color: var(--accent); }
       .leaderboard-score { font-variant-numeric: tabular-nums; }
       .leaderboard-meta { color: var(--muted); font-size: 14px; }
       .leaderboard-empty {
@@ -237,8 +247,9 @@
         padding: 16px 0;
       }
       @media (max-width: 640px) {
-        .leaderboard-row { grid-template-columns: 44px minmax(0, 1fr) 90px 90px; font-size: 14px; }
+        .leaderboard-row { grid-template-columns: 44px 1fr; font-size: 14px; }
         .leaderboard-row.header { display: none; }
+        .leaderboard-team { white-space: normal; }
       }
       .loading {
         text-align: center;
