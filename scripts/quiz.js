@@ -333,7 +333,7 @@ function renderLeaderboardList(container, entries) {
 
 function renderSummaryInfo(entry) {
   elements.summaryTeam.textContent = `隊伍：${entry.teamName}`;
-  elements.summaryScore.textContent = `本輪得分：${entry.score}`;
+  elements.summaryScore.textContent = `分數：${entry.score}`;
   elements.summaryAccuracy.textContent = `答對：${entry.correct}/${entry.total}`;
 }
 
