@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Top Fun 3.0 | 問答挑戰</title>
+    <meta name="description" content="Top Fun 3.0 手機問答挑戰" />
+    <style>
+      :root {
+        --bg: linear-gradient(180deg, #0f172a, #0b1120);
+        --panel: rgba(15, 23, 42, 0.92);
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --success: #34d399;
+        --danger: #f87171;
+        --radius: 18px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+        background: var(--bg);
+        color: #f8fafc;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        padding: clamp(16px, 4vw, 32px);
+      }
+      main {
+        width: min(960px, 100%);
+        display: grid;
+        gap: clamp(18px, 3vw, 24px);
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      header .topic-name {
+        font-size: clamp(18px, 4vw, 26px);
+        letter-spacing: 0.06em;
+      }
+      header .score {
+        text-align: right;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .card {
+        background: var(--panel);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        padding: clamp(18px, 4vw, 28px);
+        display: grid;
+        gap: clamp(14px, 3vw, 20px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
+      }
+      .team-form {
+        display: grid;
+        gap: 18px;
+        text-align: center;
+      }
+      .team-title {
+        font-size: clamp(18px, 3.6vw, 24px);
+        letter-spacing: 0.08em;
+      }
+      .team-input {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        background: rgba(30, 41, 59, 0.6);
+        color: #f8fafc;
+        font-size: 18px;
+        letter-spacing: 0.05em;
+      }
+      .team-input:focus {
+        outline: none;
+        border-color: rgba(56, 189, 248, 0.55);
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14);
+      }
+      .team-hint {
+        font-size: 14px;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+      .team-error {
+        font-size: 14px;
+        color: var(--danger);
+        min-height: 18px;
+        letter-spacing: 0.04em;
+      }
+
+      .question-text {
+        font-size: clamp(20px, 4.6vw, 30px);
+        letter-spacing: 0.02em;
+        line-height: 1.4;
+      }
+      .options {
+        display: grid;
+        gap: 12px;
+      }
+      .option {
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.26);
+        padding: 14px 18px;
+        background: rgba(30, 41, 59, 0.75);
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      }
+      .option:hover { transform: translateY(-1px); border-color: rgba(56, 189, 248, 0.45); }
+      .option.selected { border-color: rgba(56, 189, 248, 0.6); background: rgba(56, 189, 248, 0.14); }
+      .option.correct { border-color: rgba(52, 211, 153, 0.6); background: rgba(52, 211, 153, 0.12); }
+      .option.incorrect { border-color: rgba(248, 113, 113, 0.6); background: rgba(248, 113, 113, 0.12); }
+      .option.disabled { pointer-events: none; opacity: 0.65; }
+      .tag {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(148, 163, 184, 0.24);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+      .timer-container {
+        display: grid;
+        gap: 8px;
+      }
+      .timer-bar {
+        width: 100%;
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.28);
+        overflow: hidden;
+      }
+      .timer-fill {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(90deg, #38bdf8, #6366f1);
+        transform-origin: left center;
+        transform: scaleX(1);
+      }
+      .timer-score {
+        font-size: 14px;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+      .primary-button {
+        all: unset;
+        padding: 14px 20px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #38bdf8, #6366f1);
+        cursor: pointer;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        font-size: 16px;
+      }
+      .primary-button:active { opacity: 0.92; }
+      .summary {
+        display: grid;
+        gap: 16px;
+        text-align: center;
+      }
+      .summary h2 {
+        margin: 0;
+        font-size: clamp(24px, 5vw, 32px);
+      }
+      .summary .stat {
+        font-size: clamp(18px, 4vw, 24px);
+        letter-spacing: 0.05em;
+      }
+      .summary .stat strong {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .button-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .primary-button.ghost {
+        background: transparent;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+      }
+      .primary-button.ghost:hover {
+        background: rgba(148, 163, 184, 0.18);
+      }
+      .leaderboard {
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.6);
+        display: grid;
+        gap: 10px;
+        padding: 16px;
+        max-height: clamp(220px, 40vh, 320px);
+        overflow-y: auto;
+      }
+      .leaderboard-grid {
+        display: grid;
+        gap: 10px;
+      }
+      .leaderboard-row {
+        display: grid;
+        grid-template-columns: 52px 1fr 120px 120px;
+        align-items: center;
+        gap: 12px;
+        font-size: 16px;
+        letter-spacing: 0.04em;
+      }
+      .leaderboard-row.header {
+        font-size: 14px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+      .leaderboard-rank { font-weight: 600; color: var(--accent); }
+      .leaderboard-score { font-variant-numeric: tabular-nums; }
+      .leaderboard-meta { color: var(--muted); font-size: 14px; }
+      .leaderboard-empty {
+        text-align: center;
+        color: var(--muted);
+        font-size: 15px;
+        letter-spacing: 0.04em;
+        padding: 16px 0;
+      }
+      @media (max-width: 640px) {
+        .leaderboard-row { grid-template-columns: 44px 1fr 90px 90px; font-size: 14px; }
+        .leaderboard-row.header { display: none; }
+      }
+      .loading {
+        text-align: center;
+        color: var(--muted);
+        padding: 48px 0;
+      }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="topic-name" id="topicName">問答題˙</div>
+        <div class="score" id="scorePanel">
+          <div id="scoreValue">分數：0</div>
+          <div id="progressValue">題目：0/14</div>
+        </div>
+      </header>
+
+      <section class="card" id="stageLoading">
+        <div class="loading">載入中...</div>
+      </section>
+
+      <section class="card hidden" id="stageTeam">
+        <form id="teamForm" class="team-form">
+          <div class="team-title">請輸入隊伍名稱</div>
+          <input id="teamInput" class="team-input" type="text" name="team" placeholder="例如：希望小隊" maxlength="48" autocomplete="off" required />
+          <div id="teamError" class="team-error hidden">請輸入隊伍名稱</div>
+          <div class="team-hint">開始作答後將立即計時，請確認隊員皆已就緒。</div>
+          <button class="primary-button" type="submit">開始挑戰</button>
+        </form>
+      </section>
+
+      <section class="card hidden" id="stageQuestion">
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="timer-container">
+          <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+          <div class="timer-score" id="timerScore">剩餘分數：1000</div>
+        </div>
+      </section>
+
+      <section class="card hidden" id="stageSummary">
+        <div class="summary">
+          <h2>排行榜</h2>
+          <div class="stat" id="summaryTeam">隊伍：－</div>
+          <div class="stat" id="summaryScore">本輪得分：0</div>
+          <div class="stat" id="summaryAccuracy">答對：0/0</div>
+          <div class="leaderboard" id="summaryLeaderboard"></div>
+          <div class="button-row">
+            <button id="btnRefreshSummary" class="primary-button ghost" type="button">重新整理</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./scripts/supabase-config.js"></script>
+    <script type="module" src="./scripts/quiz.js"></script>
+  </body>
+</html>
