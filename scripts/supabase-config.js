@@ -1,7 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.47.10?bundle&target=es2022';
 
-const FALLBACK_URL = 'https://your-project.supabase.co';
-const FALLBACK_KEY = 'public-anon-key';
+const FALLBACK_URL = 'https://kjwthymxwbfsaqmpogto.supabase.co';
+const FALLBACK_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtqd3RoeW14d2Jmc2FxbXBvZ3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NDg3ODgsImV4cCI6MjA3ODQyNDc4OH0.NwQJyFEg02Wx8KC0uzuUZF2roRpWY3sVVV-RJzw61XM';
 
 const supabaseUrl = window?.SUPABASE_URL || FALLBACK_URL;
 const supabaseKey = window?.SUPABASE_ANON_KEY || FALLBACK_KEY;
@@ -15,3 +15,4 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 });
 
 export const LEADERBOARD_TABLE = 'quiz_leaderboard';
+
